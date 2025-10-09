@@ -19,8 +19,8 @@
 - 🌍 React Router DOM
 - 🌍 React-icons
 - 🌍 react-responsive-carousel
-- 🌍 npm install react-fast-marquee
-- 🌍 React Router DOM
+- 🌍 react-fast-marquee
+- 🌍 react aos --save
 - 🌍 React Router DOM
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests

@@ -28,7 +28,7 @@ const HowItWorks = () => {
 
     return (
         <section className="py-16">
-            <div className="container mx-auto px-6">
+            <div data-aos="zoom-in-left" data-aos-duration="2000" className="container mx-auto px-6">
                 <h2 className="text-3xl font-extrabold text-[#03373D] mb-10">How it Works</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {workItems.map((item, index) => (
