@@ -19,7 +19,7 @@
 - 🌍 React Router DOM
 - 🌍 React-icons
 - 🌍 react-responsive-carousel
-- 🌍 React Router DOM
+- 🌍 npm install react-fast-marquee
 - 🌍 React Router DOM
 - 🌍 React Router DOM
 - 🔐 Firebase Authentication
