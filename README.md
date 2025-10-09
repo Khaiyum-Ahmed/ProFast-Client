@@ -18,7 +18,7 @@
 - 🎨 Tailwind CSS + DaisyUI
 - 🌍 React Router DOM
 - 🌍 React-icons
-- 🌍 React Router DOM
+- 🌍 react-responsive-carousel
 - 🌍 React Router DOM
 - 🌍 React Router DOM
 - 🌍 React Router DOM
