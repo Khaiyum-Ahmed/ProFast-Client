@@ -4,6 +4,7 @@ import MainLayouts from "../Layouts/MainLayouts";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Login from "../Pages/AuthenticationPages/Login/Login";
 import AuthLayouts from "../Layouts/AuthLayouts";
+import Register from "../Pages/AuthenticationPages/Register/Register";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         Component:Login
+      },
+      {
+        path:"/register",
+        Component:Register
       }
     ]
   },
