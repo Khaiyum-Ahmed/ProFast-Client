@@ -7,6 +7,7 @@ import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 import { RouterProvider } from "react-router/dom";
 import { router } from './routes/router.jsx';
+import AuthProvider from './contexts/AuthProvider.jsx';
 
 
 AOS.init();
@@ -15,7 +16,9 @@ AOS.init();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <div>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </div>
   </StrictMode>,
 )
