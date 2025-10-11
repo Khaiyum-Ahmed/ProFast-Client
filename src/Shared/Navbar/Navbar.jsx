@@ -1,7 +1,16 @@
 import { Link, NavLink } from "react-router";
 import ProfastLogo from "../ProfastLogo";
+import UseAuth from "../../hooks/UseAuth";
 
 const Navbar = () => {
+    const {user,logOutUser} = UseAuth();
+    const userLogOut = ()=>{
+        logOutUser()
+        .then(()=>console.log("Sign-Out successfully"))
+        .catch(error=>{
+            console.log(error)
+        })
+    }
 
     const navLinks = <>
         <li><NavLink to="/">Home</NavLink></li>
@@ -34,7 +43,14 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                {
+                    user? <div className="flex items-center gap-2">
+                        <p className="font-medium">{user.email}</p>
+                        <button onClick={userLogOut} className="btn btn-primary text-black font-bold">LogOut</button>
+                    </div> :
+                    <Link to="/login" className="btn btn-primary text-black">LogIn</Link>
+                }
+                {/* <a className="btn">Button</a> */}
             </div>
         </div>
     );

@@ -6,16 +6,16 @@ import UseAuth from '../../../hooks/UseAuth';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const {createUser} = UseAuth();
+    const { createUser } = UseAuth();
     const handleRegister = data => {
         console.log(data);
         createUser(data.email, data.password)
-        .then(result =>{
-            console.log(result.user)
-        })
-        .catch(error =>{
-            console.log(error)
-        })
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     return (
         <div className='max-w-xl'>
@@ -44,18 +44,17 @@ const Register = () => {
                     {/* Password field */}
                     <label className="label">Password</label>
                     <input type="password"
-                        {...register("password", { required: true, minLength:6 })}
+                        {...register("password", { required: true, minLength: 6 })}
                         className="input w-full" placeholder="Password" />
 
                     {errors.password?.type === "required" && (<p className='text-red-500'>Invalid password!</p>)}
-                    {errors.password?.type==="minLength" && (<p className='text-red-500'> Password must be 6 characters or longer!</p>)}
+                    {errors.password?.type === "minLength" && (<p className='text-red-500'> Password must be 6 characters or longer!</p>)}
 
-                    <button className="btn btn-neutral mt-4">Register</button>
+                    <button className="btn btn-primary text-[#1F1F1F] mt-4">Register</button>
                 </fieldset>
-                <p className='text-[#71717A] py-4'>Already have an account? <Link to="/login" className='text-[#CAEB66] my-3'>Login</Link></p>
-                <SocialLogin></SocialLogin>
-
+                <p className='text-[#71717A] py-2'>Already have an account? <Link to="/login" className='text-[#CAEB66] '>Login</Link></p>
             </form>
+            <SocialLogin></SocialLogin>
         </div>
     );
 };
