@@ -8,3 +8,16 @@
   font-weight: 400;
   font-style: normal;
 }
+a{
+  color: #606060;
+  font-weight: 500;
+}
+a.active{
+    background-color: #CAEB66;
+    border: 1px solid #CAEB66;
+    border-radius: 50px;
+    color: #5B6A2E;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 20px;
+}

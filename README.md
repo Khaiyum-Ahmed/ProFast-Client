@@ -21,7 +21,7 @@
 - 🌍 react-responsive-carousel
 - 🌍 react-fast-marquee
 - 🌍 react aos --save
-- 🌍 React Router DOM
+- 🌍 React-hook-form
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
 
