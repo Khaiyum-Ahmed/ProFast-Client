@@ -2,11 +2,20 @@ import React from 'react';
 import { Link } from 'react-router';
 import SocialLogin from '../SocialAuth/SocialLogin';
 import { useForm } from 'react-hook-form';
+import UseAuth from '../../../hooks/UseAuth';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const {createUser} = UseAuth();
     const handleRegister = data => {
-        console.log(data)
+        console.log(data);
+        createUser(data.email, data.password)
+        .then(result =>{
+            console.log(result.user)
+        })
+        .catch(error =>{
+            console.log(error)
+        })
     }
     return (
         <div className='max-w-xl'>
@@ -22,6 +31,7 @@ const Register = () => {
                         {...register("name", { required: true, minLength: 6 })}
                         className="input w-full" placeholder="Name" />
                     {errors.name?.type === "required" && (<p className='text-red-500'>Name is required?</p>)}
+                    {errors.name?.type === "minLength" && (<p className='text-red-500'>Name must be 6 characters or longer!</p>)}
 
                     {/* email field */}
                     <label className="label">Email</label>
