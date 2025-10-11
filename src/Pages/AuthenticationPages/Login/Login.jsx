@@ -1,9 +1,31 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
+    const { register, handleSubmit, formState:{errors} } = useForm();
+    const onSubmit = (data) => {
+        console.log(data)
+    }
     return (
-        <div>
-            <h2>log in here</h2>
+        <div className='max-w-xl'>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <fieldset className="fieldset">
+                    <label className="label">Email</label>
+                    <input type="email"
+                        {...register("email", { required: true })}
+                        className="input w-full" placeholder="Email" />
+                        {errors.email && <p className='text-red-500'>Valid email is required?</p>}
+
+                    <label className="label">Password</label>
+                    <input type="password"
+                        {...register("password", { required: true, minLength: 8 })}
+                        className="input w-full" placeholder="Password" />
+
+                    <div><a className="link link-hover">Forgot password?</a></div>
+
+                    <button className="btn btn-neutral mt-4">Login</button>
+                </fieldset>
+            </form>
         </div>
     );
 };

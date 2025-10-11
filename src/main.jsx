@@ -14,7 +14,7 @@ AOS.init();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className='bg-[#EAECED] pt-8 Font-urbanist'>
+    <div>
       <RouterProvider router={router} />
     </div>
   </StrictMode>,
