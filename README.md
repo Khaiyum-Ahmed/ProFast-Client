@@ -22,6 +22,7 @@
 - 🌍 react-fast-marquee
 - 🌍 react aos --save
 - 🌍 React-hook-form
+- 🌍 react-leaflet leaflet
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
 
