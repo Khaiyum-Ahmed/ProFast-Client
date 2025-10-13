@@ -16,8 +16,9 @@ const Navbar = () => {
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/services">Services</NavLink></li>
         <li><NavLink to="/coverage">Coverage</NavLink></li>
-        <li><NavLink to="/about">About Us</NavLink></li>
+        <li><NavLink to="/addParcel">Add Parcels</NavLink></li>
         <li><NavLink to="/pricing">Pricing</NavLink></li>
+        <li><NavLink to="/about">About Us</NavLink></li>
         <li><NavLink to="/rider">Be a Rider</NavLink></li>
     </>
     return (
@@ -33,12 +34,12 @@ const Navbar = () => {
                         {navLinks}
                     </ul>
                 </div>
-                {/* <button><Link to="/"><ProfastLogo></ProfastLogo></Link></button> */}
+             
                 <div to="/"><ProfastLogo></ProfastLogo></div>
                 
             </div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1 font-medium text-[#606060]">
+                <ul className="flex gap-5 font-medium text-[#606060]">
                     {navLinks}
                 </ul>
             </div>

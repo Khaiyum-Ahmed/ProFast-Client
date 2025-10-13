@@ -23,6 +23,8 @@
 - 🌍 react aos --save
 - 🌍 React-hook-form
 - 🌍 react-leaflet leaflet
+- 🌍 react-hot-toast
+- 🌍 react-sweetalert2
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
 
