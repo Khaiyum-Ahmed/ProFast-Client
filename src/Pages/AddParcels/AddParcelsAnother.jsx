@@ -135,36 +135,9 @@ const AddParcel = () => {
                 <div className=" p-5 rounded-xl shadow-md space-y-5">
                     <h3 className="font-extrabold text-2xl text-[#03373D]">Enter your parcel details</h3>
                     <div className="space-y-4">
-
-                        {/* Type */}
-                        <div className="py-4">
-                            <div className="flex gap-4">
-                                <label className="flex items-center gap-2 text-[#03373D] font-semibold text-base">
-                                    <input
-                                        type="radio"
-                                        value="document"
-                                        {...register("type", { required: true })}
-                                        className="radio text-[#0AB010]"
-                                    />
-                                    Document
-                                </label>
-                                <label className="flex items-center gap-2 text-[#03373D] font-semibold text-base">
-                                    <input
-                                        type="radio"
-                                        value="non-document"
-                                        {...register("type", { required: true })}
-                                        className="radio text-[#0AB010]"
-                                    />
-                                    Non-Document
-                                </label>
-                            </div>
-                            {errors.type && <p className="text-red-500 text-sm">Type is required</p>}
-                        </div>
-
-                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5"> 
-                           {/* Parcel Name */}
+                        {/* Parcel Name */}
                         <div>
-                            <label className="label text-[#0F172A] font-medium">Parcel Name</label>
+                            <label className="label">Parcel Name</label>
                             <input
                                 {...register("title", { required: true })}
                                 className="input input-bordered w-full"
@@ -173,9 +146,35 @@ const AddParcel = () => {
                             {errors.title && <p className="text-red-500 text-sm">Parcel name is required</p>}
                         </div>
 
+                        {/* Type */}
+                        <div>
+                            <label className="label">Type</label>
+                            <div className="flex gap-4">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value="document"
+                                        {...register("type", { required: true })}
+                                        className="radio"
+                                    />
+                                    Document
+                                </label>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value="non-document"
+                                        {...register("type", { required: true })}
+                                        className="radio"
+                                    />
+                                    Non-Document
+                                </label>
+                            </div>
+                            {errors.type && <p className="text-red-500 text-sm">Type is required</p>}
+                        </div>
+
                         {/* Weight */}
                         <div>
-                            <label className="label text-[#0F172A] font-medium">Parcel Weight (KG)</label>
+                            <label className="label">Weight (kg)</label>
                             <input
                                 type="number"
                                 step="0.1"
@@ -183,10 +182,9 @@ const AddParcel = () => {
                                 disabled={parcelType !== "non-document"}
                                 className={`input input-bordered w-full ${parcelType !== "non-document" ? "bg-gray-100 cursor-not-allowed" : ""
                                     }`}
-                                placeholder="Parcel Weight (KG)"
+                                placeholder="Enter weight"
                             />
                         </div>
-                     </div>
                     </div>
                 </div>
 
