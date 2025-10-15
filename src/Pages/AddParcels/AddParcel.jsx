@@ -2,8 +2,8 @@
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { useLoaderData } from "react-router";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
 import UseAuth from "../../hooks/UseAuth";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
 
 const generateTrackingID = () => {
     const date = new Date();
@@ -20,7 +20,7 @@ const AddParcel = () => {
         formState: { errors },
     } = useForm();
     const { user } = UseAuth();
-    // const axiosSecure = useAxiosSecure();
+    const axiosSecure = UseAxiosSecure();
 
     const serviceCenters = useLoaderData();
     // Extract unique regions
@@ -103,20 +103,20 @@ const AddParcel = () => {
 
                 console.log("Ready for payment:", parcelData);
 
-                // axiosSecure.post('/parcels', parcelData)
-                //     .then(res => {
-                //         console.log(res.data);
-                //         if (res.data.insertedId) {
-                //             // TODO: redirect to a payment page 
-                //             Swal.fire({
-                //                 title: "Redirecting...",
-                //                 text: "Proceeding to payment gateway.",
-                //                 icon: "success",
-                //                 timer: 1500,
-                //                 showConfirmButton: false,
-                //             });
-                //         }
-                //     })
+                axiosSecure.post('/parcels', parcelData)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            // TODO: redirect to a payment page 
+                            Swal.fire({
+                                title: "Redirecting...",
+                                text: "Proceeding to payment gateway.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false,
+                            });
+                        }
+                    })
 
             }
         });

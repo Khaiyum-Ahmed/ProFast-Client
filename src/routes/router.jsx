@@ -8,6 +8,7 @@ import Register from "../Pages/AuthenticationPages/Register/Register";
 import Coverage from "../Pages/Coverage/Coverage";
 import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 import AddParcel from "../Pages/AddParcels/AddParcel";
+import DashBoardLayouts from "../Layouts/DashBoardLayouts";
 
 export const router = createBrowserRouter([
   {
@@ -24,14 +25,13 @@ export const router = createBrowserRouter([
         loader: () => fetch('/data/warehouses.json')
       },
       {
-        path:'addParcel',
+        path: 'addParcel',
         element: <PrivateRoutes><AddParcel></AddParcel></PrivateRoutes>,
         loader: () => fetch('/data/warehouses.json')
       },
       {
         path: "*",
         Component: ErrorPage
-        
       }
     ]
   },
@@ -47,6 +47,13 @@ export const router = createBrowserRouter([
         path: "/register",
         Component: Register
       }
+    ]
+  },
+  {
+    path: '/dashboard',
+    element: <PrivateRoutes><DashBoardLayouts></DashBoardLayouts></PrivateRoutes>,
+    children: [
+
     ]
   },
   {
