@@ -9,6 +9,7 @@ import Coverage from "../Pages/Coverage/Coverage";
 import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 import AddParcel from "../Pages/AddParcels/AddParcel";
 import DashBoardLayouts from "../Layouts/DashBoardLayouts";
+import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 
 export const router = createBrowserRouter([
   {
@@ -40,11 +41,11 @@ export const router = createBrowserRouter([
     Component: AuthLayouts,
     children: [
       {
-        path: "/login",
+        path: "login",
         Component: Login
       },
       {
-        path: "/register",
+        path: "register",
         Component: Register
       }
     ]
@@ -53,7 +54,10 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <PrivateRoutes><DashBoardLayouts></DashBoardLayouts></PrivateRoutes>,
     children: [
-
+{
+  path:'myParcels',
+  Component:MyParcels
+}
     ]
   },
   {
