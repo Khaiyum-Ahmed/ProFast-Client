@@ -27,6 +27,7 @@
 - 🌍 react-sweetalert2
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
+- ⚡ tanstack/react-query
 
 ### **Backend**
 - 🧠 Node.js & Express.js

@@ -1,4 +1,5 @@
-import { Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
+import ProfastLogo from "../Shared/ProfastLogo";
 
 const DashBoardLayouts = () => {
     return (
@@ -34,10 +35,11 @@ const DashBoardLayouts = () => {
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu bg-base-200 min-h-full w-80 p-4">
+                <ul className="menu bg-base-200 min-h-full w-80 p-4 space-y-4">
                     {/* Sidebar content here */}
-                    <li><a>Sidebar Item 1</a></li>
-                    <li><a>Sidebar Item 2</a></li>
+                    <ProfastLogo></ProfastLogo>
+                    <li><NavLink to="/">Home</NavLink></li>
+                    <li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>
                 </ul>
             </div>
         </div >
