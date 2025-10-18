@@ -3,10 +3,12 @@ import React from 'react';
 import UseAuth from '../../../hooks/UseAuth';
 import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const MyParcels = () => {
     const { user } = UseAuth();
     const axiosSecure = UseAxiosSecure();
+    const navigate = useNavigate();
     const { data: parcels = [], refetch } = useQuery({
         queryKey: ['my-parcels', user.email],
         queryFn: async () => {
@@ -34,6 +36,7 @@ const MyParcels = () => {
 
     // 💳 Pay Action
     const handlePay = (parcel) => {
+        console.log(parcel)
         if (parcel.payment_status === "paid") {
             Swal.fire({
                 icon: "info",
@@ -43,6 +46,7 @@ const MyParcels = () => {
             });
             return;
         }
+        navigate(`/dashboard/payment/${parcel._id}`)
 
         Swal.fire({
             title: "Confirm Payment?",

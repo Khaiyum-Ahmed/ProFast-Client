@@ -10,6 +10,7 @@ import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 import AddParcel from "../Pages/AddParcels/AddParcel";
 import DashBoardLayouts from "../Layouts/DashBoardLayouts";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../Pages/Dashboard/PaymentGateway/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -54,10 +55,14 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <PrivateRoutes><DashBoardLayouts></DashBoardLayouts></PrivateRoutes>,
     children: [
-{
-  path:'myParcels',
-  Component:MyParcels
-}
+      {
+        path: 'myParcels',
+        Component: MyParcels
+      },
+      {
+        path:'payment/:id',
+        Component:Payment
+      }
     ]
   },
   {

@@ -28,11 +28,14 @@
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
 - ⚡ tanstack/react-query
+- ⚡ Payment gateway: @stripe/stripe-js @stripe/react-stripe-js
+
 
 ### **Backend**
 - 🧠 Node.js & Express.js
-- 🗄️ MongoDB with Mongoose
-- 🔑 JSON Web Token (JWT) for authentication
+- 🗄️ MongoDB 
+- 🔑 Firebase
+- 🔑 stirpe for payment integration
 - 🌐 CORS enabled for secure API communication
 
 ### **Deployment**
