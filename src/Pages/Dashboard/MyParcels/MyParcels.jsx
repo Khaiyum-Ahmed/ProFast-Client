@@ -37,41 +37,41 @@ const MyParcels = () => {
     // 💳 Pay Action
     const handlePay = (parcel) => {
         console.log(parcel)
-        if (parcel.payment_status === "paid") {
-            Swal.fire({
-                icon: "info",
-                title: "Already Paid",
-                text: "This parcel has already been paid.",
-                confirmButtonColor: "#3B82F6",
-            });
-            return;
-        }
+        // if (parcel.payment_status === "paid") {
+        //     Swal.fire({
+        //         icon: "info",
+        //         title: "Already Paid",
+        //         text: "This parcel has already been paid.",
+        //         confirmButtonColor: "#3B82F6",
+        //     });
+        //     return;
+        // }
         navigate(`/dashboard/payment/${parcel._id}`)
 
-        Swal.fire({
-            title: "Confirm Payment?",
-            text: `Proceed to pay ৳${parcel.cost} for "${parcel.title}"`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Yes, Pay Now",
-            confirmButtonColor: "#10B981",
-            cancelButtonColor: "#6B7280",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // ✅ Simulate payment success (API call can go here)
-                // setParcels(
-                //     parcels.map((p) =>
-                //         p._id === parcel._id ? { ...p, payment_status: "paid" } : p
-                //     )
-                // );
-                Swal.fire({
-                    icon: "success",
-                    title: "Payment Successful 💳",
-                    text: `You have successfully paid ৳${parcel.cost}.`,
-                    confirmButtonColor: "#10B981",
-                });
-            }
-        });
+        // Swal.fire({
+        //     title: "Confirm Payment?",
+        //     text: `Proceed to pay ৳${parcel.cost} for "${parcel.title}"`,
+        //     icon: "question",
+        //     showCancelButton: true,
+        //     confirmButtonText: "Yes, Pay Now",
+        //     confirmButtonColor: "#10B981",
+        //     cancelButtonColor: "#6B7280",
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         // ✅ Simulate payment success (API call can go here)
+        //         // setParcels(
+        //         //     parcels.map((p) =>
+        //         //         p._id === parcel._id ? { ...p, payment_status: "paid" } : p
+        //         //     )
+        //         // );
+        //         Swal.fire({
+        //             icon: "success",
+        //             title: "Payment Successful 💳",
+        //             text: `You have successfully paid ৳${parcel.cost}.`,
+        //             confirmButtonColor: "#10B981",
+        //         });
+        //     }
+        // });
     };
 
     // ❌ Delete

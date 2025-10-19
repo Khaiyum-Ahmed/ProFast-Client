@@ -1,16 +1,20 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../Loading/Loading';
+import UseAuth from '../../../hooks/UseAuth';
+import Swal from 'sweetalert2';
 
 const CheckoutForm = () => {
+    const { user } = UseAuth();
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState('');
     const { parcelId } = useParams();
     const axiosSecure = UseAxiosSecure();
+    const navigate = useNavigate();
 
 
     const { data: parcelInfo = {}, isPending } = useQuery({
@@ -63,15 +67,41 @@ const CheckoutForm = () => {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
-                    name: "Jhon"
+                    name: user.displayName,
+                    email: user.email
                 },
             },
         });
         if (result.error) {
-            console.log(result.error.message);
+            setError(result.error.message);
         } else {
+            setError('');
             if (result.paymentIntent.status === "succeeded") {
                 console.log("payment succeeded", result);
+                const transactionId = result.paymentIntent.id;
+                // mark parcel paid also create payment history
+                const paymentData = {
+                    parcelId,
+                    email: user.email,
+                    amount,
+                    transactionId: transactionId,
+                    paymentMethod: result.paymentIntent.payment_method_types,
+
+                }
+                const paymentRes = await axiosSecure.post('/payments', paymentData);
+                if(paymentRes.data.insertedId){
+                    // show sweetAlert with transaction ID
+
+                    await Swal.fire({
+                        icon: "success",
+                        title: "Payment Successful!",
+                        html: `<strong>Transaction ID:</strong><code>${transactionId}</code>`,
+                        confirmButtonText: 'Go to my parcels',
+                    });
+                    // redirect to /myparcels
+                    navigate('/dashboard/myParcels')
+
+                }
             }
         }
 
