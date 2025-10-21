@@ -3,25 +3,25 @@ import ProfastLogo from "../ProfastLogo";
 import UseAuth from "../../hooks/UseAuth";
 
 const Navbar = () => {
-    const {user,logOutUser} = UseAuth();
-    const userLogOut = ()=>{
+    const { user, logOutUser } = UseAuth();
+    const userLogOut = () => {
         logOutUser()
-        .then(()=>console.log("Sign-Out successfully"))
-        .catch(error=>{
-            console.log(error)
-        })
+            .then(() => console.log("Sign-Out successfully"))
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const navLinks = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/services">Services</NavLink></li>
         <li><NavLink to="/coverage">Coverage</NavLink></li>
-         <li><NavLink to="/addParcel">Add Parcels</NavLink></li>
+        <li><NavLink to="/addParcel">Add Parcels</NavLink></li>
         {
-            user && 
+            user &&
             <>
-       
-        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+
+                <li><NavLink to="/dashboard">Dashboard</NavLink></li>
             </>
         }
         <li><NavLink to="/pricing">Pricing</NavLink></li>
@@ -41,9 +41,9 @@ const Navbar = () => {
                         {navLinks}
                     </ul>
                 </div>
-             
+
                 <div to="/"><ProfastLogo></ProfastLogo></div>
-                
+
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="flex gap-5 font-medium text-[#606060]">
@@ -52,11 +52,17 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user? <div className="flex items-center gap-2">
-                        <p className="font-medium">{user.email}</p>
-                        <button onClick={userLogOut} className="btn btn-primary text-black font-bold">LogOut</button>
-                    </div> :
-                    <Link to="/login" className="btn btn-primary text-black">LogIn</Link>
+                    user ? <>
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
+                                <img className="w-10 h-10 rounded-full" src={user.photoURL} alt="Profile Picture" />
+                            <p className="font-medium">{user.displayName}</p>
+
+                            </div>
+                            <button onClick={userLogOut} className="btn btn-primary text-black font-bold">LogOut</button>
+                        </div>
+                    </> :
+                        <Link to="/login" className="btn btn-primary text-black">LogIn</Link>
                 }
                 {/* <a className="btn">Button</a> */}
             </div>
