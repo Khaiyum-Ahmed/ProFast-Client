@@ -1,14 +1,16 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { Form, Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialAuth/SocialLogin';
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../hooks/UseAuth';
+import axios from 'axios';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser } = UseAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const [profilePic, setProfilePic] =useState('');
     const from = location.state?.from || "/";
     const handleRegister = data => {
         console.log(data);
@@ -21,6 +23,18 @@ const Register = () => {
                 console.log(error)
             })
     }
+    const handleImageUpload = async(e)=>{
+        const image = e.target.files[0];
+        console.log(image);
+
+        const formData = new FormData();
+        formData.append('image', image);
+
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
+
+        const res = await axios.post(imageUploadUrl, formData)
+        setProfilePic(res.data.data.url)
+    }
     return (
         <div className='max-w-xl'>
             <form onSubmit={handleSubmit(handleRegister)}>
@@ -29,11 +43,22 @@ const Register = () => {
                     <p className='font-medium text-base'>Register with ProFast</p>
                 </div>
                 <fieldset className="fieldset">
+                    {/* Image field */}
+                    <label className="label">Upload Picture</label>
+                    <input type="file"
+                    onChange={handleImageUpload}
+                        // {...register("picture", { required: true})}
+
+                        className="input w-full" 
+                        placeholder="Upload Your Profile Picture" />
+                    {/* {errors.picture?.type === "required" && (<p className='text-red-500'>Picture is required?</p>)} */}
+                    {/* {errors.Picture?.type === "minLength" && (<p className='text-red-500'>Name must be 6 characters or longer!</p>)} */}
+
                     {/* name field */}
                     <label className="label">Name</label>
                     <input type="text"
                         {...register("name", { required: true, minLength: 6 })}
-                        className="input w-full" placeholder="Name" />
+                        className="input w-full" placeholder="Your Name" />
                     {errors.name?.type === "required" && (<p className='text-red-500'>Name is required?</p>)}
                     {errors.name?.type === "minLength" && (<p className='text-red-500'>Name must be 6 characters or longer!</p>)}
 

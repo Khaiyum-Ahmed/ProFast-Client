@@ -47,11 +47,11 @@ const PaymentHistory = () => {
                             payments.map((payment, index) => (
                                 <tr key={payment._id}>
                                     <td>{index + 1}</td>
-                                    <td>{payment.parcelId}</td>
+                                    <td>{`${payment.parcelId.slice(0,5)}...${payment.parcelId.slice(-4)}`}</td>
                                     <td>{payment.email}</td>
                                     <td>${(payment.amount)}</td>
                                     <td>{payment.paymentMethod}</td>
-                                    <td className="font-mono text-sm">{payment.transactionId}</td>
+                                    <td className="font-mono text-sm">{`${payment.transactionId.slice(0,4)}...${payment.transactionId.slice(-4)}`}</td>
                                     <td>
                                         {new Date(payment.paid_at).toLocaleString("en-US", {
                                             dateStyle: "medium",
