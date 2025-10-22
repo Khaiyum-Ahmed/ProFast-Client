@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import ProfastLogo from "../Shared/ProfastLogo";
-import { FaBoxOpen, FaHome, FaMoneyBillWave, FaRoute, FaUserEdit } from "react-icons/fa";
+import { FaBoxOpen, FaHome, FaMoneyBillWave, FaRoute, FaUserCheck, FaUserClock, FaUserEdit } from "react-icons/fa";
 
 const DashBoardLayouts = () => {
     return (
@@ -66,6 +66,19 @@ const DashBoardLayouts = () => {
                     <li>
                         <NavLink to="/dashboard/profile" className="flex items-center gap-3">
                             <FaUserEdit className="text-xl" /> Update Profile
+                        </NavLink>
+                    </li>
+                    {/* riders link */}
+                    <li>
+                        <NavLink to="/dashboard/active-riders">
+                            <FaUserCheck className="inline-block mr-2" />
+                            Active Riders
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/pending-riders">
+                            <FaUserClock className="inline-block mr-2" />
+                            Pending Riders
                         </NavLink>
                     </li>
                 </ul>

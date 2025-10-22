@@ -1,13 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+// import toast, { Toaster } from "react-hot-toast";
 import riderImage from "../../assets/images/agent-pending.png"; // replace with your image path
 import { useLoaderData } from "react-router";
 import UseAuth from "../../hooks/UseAuth";
+import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import Swal from "sweetalert2";
 
 const BeARider = () => {
     const warehouseData = useLoaderData(); // should return array of regions + warehouses
-    const {user} = UseAuth();
+    const { user } = UseAuth();
+    const axiosSecure = UseAxiosSecure();
     const regions = [...new Set(warehouseData.map((d) => d.region))];
 
     const {
@@ -24,16 +27,34 @@ const BeARider = () => {
         : [];
 
     const onSubmit = (data) => {
-        toast.success(`Thanks, ${data.name}! Your rider request has been submitted.`, {
-            duration: 4000,
-        });
-        console.log("Rider Application:", data);
+        const riderData = {
+            ...data,
+            name: user?.displayName || '',
+            email: user?.email || '',
+            status: "pending",
+            created_at: new Date().toISOString(),
+        }
+        console.log('rider data', riderData);
+        axiosSecure.post('/riders', riderData)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Application Submitted!",
+                        text: "Your application is pending approval.",
+                    });
+                }
+            })
+        // toast.success(`Thanks, ${data.name}! Your rider request has been submitted.`, {
+        //     duration: 4000,
+        // });
+        // console.log("Rider Application:", data);
         reset();
     };
 
     return (
         <div className="min-h-screen bg-gray-50 rounded-4xl py-20 px-14 md:px-16">
-            <Toaster position="top-center" />
+            {/* <Toaster position="top-center" /> */}
 
             {/* Section Title */}
             <div className="max-w-5xl mx-auto mb-12">
@@ -47,7 +68,7 @@ const BeARider = () => {
             </div>
 
             {/* Main Content */}
-            <div className="bg-white rounded-2xl shadow p-8 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+            <div className="bg-white rounded-2xl p-8 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
                 {/* Form */}
                 <div>
                     <h2 className="text-lg font-semibold text-gray-800 mb-6">
