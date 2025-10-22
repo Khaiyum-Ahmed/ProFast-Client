@@ -1,181 +1,134 @@
-import React, { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { FaEye, FaCheck, FaTimes } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
+import Loading from "../../Loading/Loading";
+import Swal from "sweetalert2";
 
-// 🟢 PendingRiders Component
 const PendingRiders = () => {
-    // Example mock data — replace this with your fetched data from DB or API
-    const [riders, setRiders] = useState([
-        {
-            id: 1,
-            name: "John Doe",
-            email: "john@example.com",
-            age: 25,
-            nid: "1234567890",
-            contact: "01712345678",
-            region: "Dhaka",
-            warehouse: "Gulshan",
-            status: "Pending",
-            createdAt: "2025-10-20",
-        },
-        {
-            id: 2,
-            name: "Amina Rahman",
-            email: "amina@example.com",
-            age: 28,
-            nid: "9876543210",
-            contact: "01812345678",
-            region: "Chattogram",
-            warehouse: "Agrabad",
-            status: "Pending",
-            createdAt: "2025-10-21",
-        },
-    ]);
+    const [selectedRider, setSelectedRider] = useState(null);
+    const axiosSecure = UseAxiosSecure();
 
-    const [selectedRider, setSelectedRider] = useState(null); // For modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { isPending, data: riders = [], refetch } = useQuery({
+        queryKey: ['pending-riders'],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/riders/pending");
+            return res.data;
+        }
+    })
 
-    // 🟢 Function: Open modal and set selected rider
-    const openModal = (rider) => {
-        setSelectedRider(rider);
-        setIsModalOpen(true);
+    if (isPending) {
+        return <Loading></Loading>
+    }
+
+    const handleDecision = async (id, action) => {
+
+        const confirm = await Swal.fire({
+            title: `${action === "approve" ? "Approve" : "Reject"} Application?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "Cancel",
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        try {
+            await axiosSecure.patch(`/riders/${id}/status`, {
+                status: action === "approve" ? "active" : "rejected",
+            });
+
+            refetch();
+
+            Swal.fire("Success", `Rider ${action} successfully`, "success");
+
+        } catch (err) {
+            Swal.fire("Error", "Could not update rider status", err);
+        }
     };
-
-    // 🟢 Function: Close modal
-    const closeModal = () => {
-        setSelectedRider(null);
-        setIsModalOpen(false);
-    };
-
-    // 🟢 Function: Approve Rider
-    const handleApprove = (id) => {
-        setRiders((prev) =>
-            prev.map((r) =>
-                r.id === id ? { ...r, status: "Approved" } : r
-            )
-        );
-        toast.success("Rider approved successfully!");
-        closeModal();
-    };
-
-    // 🟢 Function: Cancel Rider
-    const handleCancel = (id) => {
-        setRiders((prev) =>
-            prev.map((r) =>
-                r.id === id ? { ...r, status: "Rejected" } : r
-            )
-        );
-        toast.error("Rider application rejected!");
-        closeModal();
-    };
+    console.log(riders)
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-6">
-            <Toaster position="top-center" />
-            <div className="max-w-6xl mx-auto bg-white p-6 rounded-2xl shadow">
-                <h1 className="text-2xl font-bold text-emerald-900 mb-6">
-                    Pending Riders
-                </h1>
+        <div className="p-6">
+            <h2 className="text-2xl font-semibold mb-4">Pending Rider Applications</h2>
 
-                {/* Table */}
-                <div className="overflow-x-auto">
-                    <table className="min-w-full text-sm border border-gray-200">
-                        <thead className="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th className="py-3 px-4 text-left">#</th>
-                                <th className="py-3 px-4 text-left">Name</th>
-                                <th className="py-3 px-4 text-left">Email</th>
-                                <th className="py-3 px-4 text-left">Region</th>
-                                <th className="py-3 px-4 text-left">Warehouse</th>
-                                <th className="py-3 px-4 text-left">Status</th>
-                                <th className="py-3 px-4 text-left">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {riders.map((rider, i) => (
-                                <tr
-                                    key={rider.id}
-                                    className="border-t hover:bg-gray-50 transition"
-                                >
-                                    <td className="py-3 px-4">{i + 1}</td>
-                                    <td className="py-3 px-4 font-medium">{rider.name}</td>
-                                    <td className="py-3 px-4">{rider.email}</td>
-                                    <td className="py-3 px-4">{rider.region}</td>
-                                    <td className="py-3 px-4">{rider.warehouse}</td>
-                                    <td
-                                        className={`py-3 px-4 font-semibold ${rider.status === "Approved"
-                                                ? "text-green-600"
-                                                : rider.status === "Rejected"
-                                                    ? "text-red-500"
-                                                    : "text-yellow-500"
-                                            }`}
+            <div className="overflow-x-auto">
+                <table className="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Region</th>
+                            <th>District</th>
+                            <th>Phone</th>
+                            <th>Applied</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {riders.map((rider) => (
+                            <tr key={rider._id}>
+                                <td>{rider.name}</td>
+                                <td>{`${rider.email.slice(0,4)}...${rider.email.slice(-9)}`}</td>
+                                <td>{rider.region}</td>
+                                <td>{rider.warehouse}</td>
+                                <td>{rider.contact}</td>
+                                <td>{new Date(rider.created_at).toLocaleDateString()}</td>
+                                <td className="flex gap-2">
+                                    <button
+                                        onClick={() => setSelectedRider(rider)}
+                                        className="btn btn-sm btn-info"
                                     >
-                                        {rider.status}
-                                    </td>
-                                    <td className="py-3 px-4">
-                                        <button
-                                            onClick={() => openModal(rider)}
-                                            className="text-sm bg-lime-400 hover:bg-lime-500 text-gray-800 font-semibold px-3 py-1 rounded"
-                                        >
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            {riders.length === 0 && (
-                                <tr>
-                                    <td colSpan="7" className="text-center py-5 text-gray-500">
-                                        No pending riders found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                        <FaEye />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDecision(rider._id, "approve")}
+                                        className="btn btn-sm btn-success"
+                                    >
+                                        <FaCheck />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDecision(rider._id, "reject")}
+                                        className="btn btn-sm btn-error"
+                                    >
+                                        <FaTimes />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
-            {/* 🟢 Rider Details Modal */}
-            {isModalOpen && selectedRider && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative">
-                        <button
-                            onClick={closeModal}
-                            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
-                        >
-                            &times;
-                        </button>
-
-                        <h2 className="text-xl font-bold text-emerald-900 mb-4">
-                            Rider Information
-                        </h2>
-
-                        <div className="space-y-2 text-sm text-gray-700">
+            {/* Modal for viewing rider details */}
+            {selectedRider && (
+                <dialog id="riderDetailsModal" className="modal modal-open">
+                    <div className="modal-box max-w-2xl">
+                        <h3 className="font-bold text-xl mb-2">Rider Details</h3>
+                        <div className="space-y-2">
                             <p><strong>Name:</strong> {selectedRider.name}</p>
                             <p><strong>Email:</strong> {selectedRider.email}</p>
+                            <p><strong>Phone:</strong> {selectedRider.phone}</p>
                             <p><strong>Age:</strong> {selectedRider.age}</p>
                             <p><strong>NID:</strong> {selectedRider.nid}</p>
-                            <p><strong>Contact:</strong> {selectedRider.contact}</p>
+                            <p><strong>Bike Brand:</strong> {selectedRider.bike_brand}</p>
+                            <p><strong>Bike Registration:</strong> {selectedRider.bike_registration}</p>
                             <p><strong>Region:</strong> {selectedRider.region}</p>
-                            <p><strong>Warehouse:</strong> {selectedRider.warehouse}</p>
-                            <p><strong>Applied On:</strong> {selectedRider.createdAt}</p>
-                            <p><strong>Status:</strong> {selectedRider.status}</p>
+                            <p><strong>District:</strong> {selectedRider.district}</p>
+                            <p><strong>Applied At:</strong> {new Date(selectedRider.created_at).toLocaleString()}</p>
+                            {selectedRider.note && <p><strong>Note:</strong> {selectedRider.note}</p>}
                         </div>
 
-                        <div className="mt-6 flex justify-end gap-3">
+                        <div className="modal-action mt-4">
                             <button
-                                onClick={() => handleCancel(selectedRider.id)}
-                                className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded"
+                                className="btn btn-outline"
+                                onClick={() => setSelectedRider(null)}
                             >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => handleApprove(selectedRider.id)}
-                                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded"
-                            >
-                                Approve
+                                Close
                             </button>
                         </div>
                     </div>
-                </div>
+                </dialog>
             )}
         </div>
     );
