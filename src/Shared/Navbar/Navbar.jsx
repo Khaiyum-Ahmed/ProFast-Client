@@ -42,7 +42,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div to="/"><ProfastLogo></ProfastLogo></div>
+                <span to="/"><ProfastLogo></ProfastLogo></span>
 
             </div>
             <div className="navbar-center hidden lg:flex">
