@@ -17,6 +17,8 @@ import BeARider from "../Pages/BeARider/BeARider";
 import PendingRiders from "../Pages/Dashboard/Riders/PendingRiders";
 import ActiveRiders from "../Pages/Dashboard/Riders/ActiveRiders";
 import MakeAdmin from "../Pages/Dashboard/MakeAdmin/MakeAdmin";
+import AdminRoute from "./AdminRoutes/AdminRoute";
+import Forbidden from "../Pages/Forbidden/Forbidden";
 
 export const router = createBrowserRouter([
   {
@@ -43,8 +45,8 @@ export const router = createBrowserRouter([
         loader: () => fetch('/data/warehouses.json')
       },
       {
-        path: "*",
-        Component: ErrorPage
+        path: "forbidden",
+        Component: Forbidden
       }
     ]
   },
@@ -84,15 +86,15 @@ export const router = createBrowserRouter([
       },
       {
         path:'pending-riders',
-        Component: PendingRiders
+        element:<AdminRoute><PendingRiders></PendingRiders></AdminRoute>
       },
       {
         path:'active-riders',
-        Component:ActiveRiders
+        element:<AdminRoute><ActiveRiders></ActiveRiders></AdminRoute>
       },
       {
         path:'make-admin',
-        Component:MakeAdmin
+        element:<AdminRoute><MakeAdmin></MakeAdmin></AdminRoute>
       }
 
 
