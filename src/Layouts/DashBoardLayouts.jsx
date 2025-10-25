@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import ProfastLogo from "../Shared/ProfastLogo";
-import { FaBoxOpen, FaHome, FaMoneyBillWave, FaRoute, FaUserCheck, FaUserClock, FaUserEdit } from "react-icons/fa";
+import { FaBoxOpen, FaHome, FaMoneyBillWave, FaRoute, FaUserCheck, FaUserClock, FaUserEdit, FaUserShield } from "react-icons/fa";
 
 const DashBoardLayouts = () => {
     return (
@@ -81,6 +81,13 @@ const DashBoardLayouts = () => {
                             Pending Riders
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/dashboard/make-admin">
+                            <FaUserShield className="inline-block mr-2" />
+                            Make Admin
+                        </NavLink>
+                    </li>
+
                 </ul>
             </div>
         </div >
