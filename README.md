@@ -28,6 +28,7 @@
 - 🔐 Firebase Authentication
 - ⚡ Axios for API requests
 - ⚡ tanstack/react-query
+- ⚡ npm i date-fns for calculate date oy the day/week/month/year
 - ⚡ Payment gateway: @stripe/stripe-js @stripe/react-stripe-js
 
 
