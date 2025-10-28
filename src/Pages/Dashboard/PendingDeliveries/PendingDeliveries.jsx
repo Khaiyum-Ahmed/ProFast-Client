@@ -49,9 +49,9 @@ const PendingDeliveries = () => {
 
                         // log tracking
                         // let trackDetails = `Picked up by ${user.displayName}`
-                        if (newStatus === 'delivered') {
-                            // trackDetails = `Delivered by ${user.displayName}`
-                        }
+                        // if (newStatus === 'delivered') {
+                        //     trackDetails = `Delivered by ${user.displayName}`
+                        // }
                         // await logTracking({
                         //     tracking_id: parcel.tracking_id,
                         //     status: newStatus,
@@ -102,7 +102,7 @@ const PendingDeliveries = () => {
                                     <td>
                                         {parcel.delivery_status === "rider_assigned" && (
                                             <button
-                                                className="btn btn-sm btn-primary text-black"
+                                                className="btn btn-md btn-primary text-black"
                                                 onClick={() =>
                                                     handleStatusUpdate(parcel, "in_transit")
                                                 }
