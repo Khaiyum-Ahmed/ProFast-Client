@@ -37,15 +37,15 @@ const MyParcels = () => {
     // 💳 Pay Action
     const handlePay = (parcel) => {
         console.log(parcel)
-        // if (parcel.payment_status === "paid") {
-        //     Swal.fire({
-        //         icon: "info",
-        //         title: "Already Paid",
-        //         text: "This parcel has already been paid.",
-        //         confirmButtonColor: "#3B82F6",
-        //     });
-        //     return;
-        // }
+        if (parcel.payment_status === "paid") {
+            Swal.fire({
+                icon: "info",
+                title: "Already Paid",
+                text: "This parcel has already been paid.",
+                confirmButtonColor: "#3B82F6",
+            });
+            return;
+        }
         navigate(`/dashboard/payment/${parcel._id}`)
 
         // Swal.fire({

@@ -32,6 +32,7 @@ const BeARider = () => {
             name: user?.displayName || '',
             email: user?.email || '',
             status: "pending",
+            work_status: "available",
             created_at: new Date().toISOString(),
         }
         console.log('rider data', riderData);

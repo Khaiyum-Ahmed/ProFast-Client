@@ -22,15 +22,20 @@ const AssignRider = () => {
             return res.data.sort(
                 (a, b) => new Date(a.creation_date) - new Date(b.creation_date)
             );
+            
         },
+        
     });
 
     const { mutateAsync: assignRider } = useMutation({
         mutationFn: async ({ parcelId, rider }) => {
+            console.log(rider)
             const res = await axiosSecure.patch(`/parcels/${parcelId}/assign`, {
                 riderId: rider._id,
+                riderEmail: rider.email,
                 riderName: rider.name,
             });
+        
             return res.data;
         },
         onSuccess: () => {
@@ -45,6 +50,7 @@ const AssignRider = () => {
 
     // Step 2: Open modal and load matching riders
     const openAssignModal = async (parcel) => {
+        console.log(parcel)
         setSelectedParcel(parcel);
         setLoadingRiders(true);
         setRiders([]);
@@ -52,10 +58,13 @@ const AssignRider = () => {
         try {
             const res = await axiosSecure.get("/riders/available", {
                 params: {
-                    district: parcel.sender_center, // match with rider.district
+                    // district: parcel.sender_center, // match with rider.district
+                    warehouse: parcel.sender_center, // match with rider.district
                 },
             });
             setRiders(res.data);
+            console.log(riders)
+            console.log('data', res.data)
         } catch (error) {
             console.error("Error fetching riders", error);
             Swal.fire("Error", "Failed to load riders", "error");
@@ -132,7 +141,6 @@ const AssignRider = () => {
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Phone</th>
-                                                <th>Bike Info</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -140,10 +148,7 @@ const AssignRider = () => {
                                             {riders.map((rider) => (
                                                 <tr key={rider._id}>
                                                     <td>{rider.name}</td>
-                                                    <td>{rider.phone}</td>
-                                                    <td>
-                                                        {rider.bike_brand} - {rider.bike_registration}
-                                                    </td>
+                                                    <td>{rider.contact}</td>
                                                     <td>
                                                         <button
                                                             onClick={() =>
