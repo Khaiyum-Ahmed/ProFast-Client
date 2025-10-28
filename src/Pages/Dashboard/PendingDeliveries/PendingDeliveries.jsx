@@ -4,10 +4,12 @@ import Swal from 'sweetalert2';
 import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
 import UseAuth from '../../../hooks/UseAuth';
 import Loading from '../../Loading/Loading';
+import UseTrackingLogger from '../../../hooks/UseTrackingLogger';
 
 const PendingDeliveries = () => {
     const axiosSecure = UseAxiosSecure();
     const queryClient = useQueryClient();
+    const {logTracking} = UseTrackingLogger();
     // const { logTracking } = useTrackingLogger();
     const { user } = UseAuth();
 
@@ -48,16 +50,17 @@ const PendingDeliveries = () => {
                         Swal.fire("Updated!", "Parcel status updated.", "success");
 
                         // log tracking
-                        // let trackDetails = `Picked up by ${user.displayName}`
-                        // if (newStatus === 'delivered') {
-                        //     trackDetails = `Delivered by ${user.displayName}`
-                        // }
-                        // await logTracking({
-                        //     tracking_id: parcel.tracking_id,
-                        //     status: newStatus,
-                        //     details: trackDetails,
-                        //     updated_by: user.email,
-                        // });
+                        let trackDetails = `Picked up by ${user.displayName}`
+                        if (newStatus === 'delivered') {
+                            trackDetails = `Delivered by ${user.displayName}`
+                        }
+                        await logTracking({
+                            tracking_id: parcel.tracking_id,
+                            status: newStatus,
+                            details: trackDetails,
+                            updated_by: user.email,
+                            location: parcel.sender_center
+                        });
 
                     })
                     .catch(() => {

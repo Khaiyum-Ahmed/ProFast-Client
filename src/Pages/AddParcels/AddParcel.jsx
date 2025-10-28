@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useLoaderData, useNavigate } from "react-router";
 import UseAuth from "../../hooks/UseAuth";
 import UseAxiosSecure from "../../hooks/UseAxiosSecure";
+import UseTrackingLogger from "../../hooks/UseTrackingLogger";
 
 const generateTrackingID = () => {
     const date = new Date();
@@ -22,7 +23,7 @@ const AddParcel = () => {
     const { user } = UseAuth();
     const axiosSecure = UseAxiosSecure();
     const navigate = useNavigate();
-
+    const {logTracking} = UseTrackingLogger();
     const serviceCenters = useLoaderData();
     // Extract unique regions
     const uniqueRegions = [...new Set(serviceCenters.map((w) => w.region))];
@@ -92,6 +93,7 @@ const AddParcel = () => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
+                const tracking_id= generateTrackingID();
                 const parcelData = {
                     ...data,
                     cost: totalCost,
@@ -99,13 +101,13 @@ const AddParcel = () => {
                     payment_status: 'unpaid',
                     delivery_status: 'not_collected',
                     creation_date: new Date().toISOString(),
-                    tracking_id: generateTrackingID(),
+                    tracking_id: tracking_id,
                 };
 
                 console.log("Ready for payment:", parcelData);
 
                 axiosSecure.post('/parcels', parcelData)
-                    .then(res => {
+                    .then(async(res) => {
                         console.log(res.data);
                         if (res.data.insertedId) { 
                             Swal.fire({
@@ -115,6 +117,14 @@ const AddParcel = () => {
                                 timer: 1500,
                                 showConfirmButton: false,
                             });
+                            
+                            await logTracking({
+                                tracking_id: parcelData.tracking_id,
+                                status: "parcel_created",
+                                details: `created by ${user?.displayName || user?.email}`,
+                                updated_by: user.email,
+                                location: parcelData.sender_center
+                            })
                             navigate('/dashboard/myParcels')
                         }
                     })

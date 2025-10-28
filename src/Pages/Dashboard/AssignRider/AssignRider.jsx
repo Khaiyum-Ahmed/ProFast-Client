@@ -4,13 +4,18 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
 import Loading from "../../Loading/Loading";
+import UseTrackingLogger from "../../../hooks/UseTrackingLogger";
+import UseAuth from "../../../hooks/UseAuth";
 
 const AssignRider = () => {
     const axiosSecure = UseAxiosSecure();
     const [selectedParcel, setSelectedParcel] = useState(null);
+    const [selectedRider, setSelectedRider] = useState(null)
     const [riders, setRiders] = useState([]);
     const [loadingRiders, setLoadingRiders] = useState(false);
     const queryClient = useQueryClient();
+    const { logTracking } = UseTrackingLogger();
+    const {user} = UseAuth();
 
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ["assignableParcels"],
@@ -22,25 +27,35 @@ const AssignRider = () => {
             return res.data.sort(
                 (a, b) => new Date(a.creation_date) - new Date(b.creation_date)
             );
-            
+
         },
-        
+
     });
 
     const { mutateAsync: assignRider } = useMutation({
         mutationFn: async ({ parcelId, rider }) => {
-            console.log(rider)
+            setSelectedRider(rider);
             const res = await axiosSecure.patch(`/parcels/${parcelId}/assign`, {
                 riderId: rider._id,
                 riderEmail: rider.email,
                 riderName: rider.name,
             });
-        
+
             return res.data;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             queryClient.invalidateQueries(["assignableParcels"]);
             Swal.fire("Success", "Rider assigned successfully!", "success");
+
+            // track rider assigned
+            await logTracking({
+                tracking_id: selectedParcel.tracking_id,
+                status: "Rider_Assigned",
+                details: `Assigned to ${selectedRider?.name || selectedRider?.email}`,
+                updated_by: user.email,
+                location: selectedParcel.sender_center
+            })
+
             document.getElementById("assignModal").close();
         },
         onError: () => {

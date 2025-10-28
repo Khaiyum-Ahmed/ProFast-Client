@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from '../../Loading/Loading';
 import UseAuth from '../../../hooks/UseAuth';
 import Swal from 'sweetalert2';
+import UseTrackingLogger from '../../../hooks/UseTrackingLogger';
 
 const CheckoutForm = () => {
     const { user } = UseAuth();
@@ -15,6 +16,7 @@ const CheckoutForm = () => {
     const { parcelId } = useParams();
     const axiosSecure = UseAxiosSecure();
     const navigate = useNavigate();
+    const { logTracking } = UseTrackingLogger();
 
 
     const { data: parcelInfo = {}, isPending } = useQuery({
@@ -32,7 +34,7 @@ const CheckoutForm = () => {
 
     const amount = parcelInfo.cost;
     const amountInCents = amount * 100;
-    console.log(parcelInfo, amountInCents);
+    // console.log(parcelInfo, amountInCents);
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -89,7 +91,7 @@ const CheckoutForm = () => {
 
                 }
                 const paymentRes = await axiosSecure.post('/payments', paymentData);
-                if(paymentRes.data.insertedId){
+                if (paymentRes.data.insertedId) {
                     // show sweetAlert with transaction ID
 
                     await Swal.fire({
@@ -98,6 +100,16 @@ const CheckoutForm = () => {
                         html: `<strong>Transaction ID:</strong><code>${transactionId}</code>`,
                         confirmButtonText: 'Go to my parcels',
                     });
+
+                    await logTracking({
+                        tracking_id: parcelInfo.tracking_id,
+                        status: "Payment_Done",
+                        details: `created by ${user?.displayName || user?.email}`,
+                        updated_by: user.email,
+                        location: parcelInfo.sender_center
+                    })
+
+
                     // redirect to /myparcels
                     navigate('/dashboard/myParcels')
 
