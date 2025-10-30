@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import ProfastLogo from "../Shared/ProfastLogo";
-import { FaBoxOpen, FaCheckCircle, FaHome, FaMoneyBillWave, FaMotorcycle, FaRoute, FaTasks, FaUserCheck, FaUserClock, FaUserEdit, FaUserShield, FaWallet } from "react-icons/fa";
+import { FaBoxOpen, FaCheckCircle, FaHome, FaMoneyBillWave, FaMotorcycle, FaRoute, FaSearchLocation, FaTasks, FaUserCheck, FaUserClock, FaUserEdit, FaUserShield, FaWallet } from "react-icons/fa";
 import UseUserRole from "../hooks/UseUserRole";
 
 const DashBoardLayouts = () => {
@@ -71,6 +71,13 @@ const DashBoardLayouts = () => {
                             <FaUserEdit className="text-xl" /> Update Profile
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/track">
+                            <FaSearchLocation className="inline-block mr-2" />
+                            Track Parcel
+                        </NavLink>
+                    </li>
+
 
                     {/* Riders link */}
 
