@@ -43,7 +43,7 @@ const DashBoardLayouts = () => {
                     {/* Sidebar content here */}
                     <ProfastLogo></ProfastLogo>
                     <li>
-                        <NavLink to="/" className="flex items-center gap-3">
+                        <NavLink to="/dashboard" className="flex items-center gap-3">
                             <FaHome className="text-xl" /> Home
                         </NavLink>
                     </li>
@@ -71,12 +71,12 @@ const DashBoardLayouts = () => {
                             <FaUserEdit className="text-xl" /> Update Profile
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink to="/track">
                             <FaSearchLocation className="inline-block mr-2" />
                             Track Parcel
                         </NavLink>
-                    </li>
+                    </li> */}
 
 
                     {/* Riders link */}
