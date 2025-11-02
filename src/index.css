@@ -21,9 +21,9 @@
 
 .active{
     background-color: #CAEB66;
-    border: 1px solid #CAEB66;
+    /* border: 1px solid #CAEB66; */
     border-radius: 50px;
-    color: #5B6A2E;
+    color: #222711;
     font-weight: 700;
     font-size: 16px;
     padding: 12px 20px;
