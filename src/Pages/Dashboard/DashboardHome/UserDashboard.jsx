@@ -20,7 +20,7 @@ const UserDashboard = () => {
             return res.data;
         },
     });
-console.log(parcels)
+// console.log(parcels)
     if (isLoading) return <Loading />;
 
     // ✅ Stats summary

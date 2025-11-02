@@ -3,7 +3,7 @@ import UseAuth from "./UseAuth";
 import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-    baseURL: `http://localhost:5000`
+    baseURL: `https://profast-parcel-server.vercel.app`
 });
 
 
