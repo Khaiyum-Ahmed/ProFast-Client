@@ -26,6 +26,8 @@ import CompletedDeliveries from "../Pages/Dashboard/CompletedDeliveries/Complete
 import MyEarnings from "../Pages/Dashboard/MyEarnings/MyEarnings";
 import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 import Services from "../Pages/Services/Services";
+import Pricing from "../Pages/Pricing/Pricing";
+import AboutUs from "../Pages/About/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ export const router = createBrowserRouter([
       {
         path:'services',
         Component:Services
+      },
+      {
+        path:'about',
+        Component:AboutUs
+      },
+      {
+        path:'pricing', 
+        Component:Pricing
       },
       {
         path: "coverage",
