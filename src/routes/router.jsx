@@ -28,6 +28,7 @@ import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 import Services from "../Pages/Services/Services";
 import Pricing from "../Pages/Pricing/Pricing";
 import AboutUs from "../Pages/About/AboutUs";
+import UpdateProfile from "../Pages/Dashboard/UpdateProfile/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
       {
         path: 'payment/:parcelId',
         Component: Payment
+      },
+      {
+        path:'profile',
+        Component:UpdateProfile
       },
       {
         path: 'paymentHistory',
