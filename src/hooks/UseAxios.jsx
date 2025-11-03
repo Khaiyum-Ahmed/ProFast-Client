@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-//    baseURL:`https://profast-parcel-server.vercel.app`
-   baseURL:`http://localhost:5000`
+   baseURL:`https://profast-parcel-server.vercel.app`
 })
 const UseAxios = () => {
     return axiosInstance;
