@@ -5,9 +5,9 @@
 ---
 
 ## 🌐 Live Demo  
-🔗 [View Live Site](https://your-live-demo-link.com) *(replace with your deployed link)*  
-🔗 [Client Repository](https://github.com/your-username/profast-client)  
-🔗 [Server Repository](https://github.com/your-username/profast-server)
+🔗 [View Live Site](https://pro-fast-client-orpin.vercel.app/) *(replace with your deployed link)*  
+🔗 [Client Repository](https://github.com/Khaiyum-Ahmed/ProFast-Client.git)  
+🔗 [Server Repository](https://github.com/Khaiyum-Ahmed/profast-parcel-server.git)
 
 ---
 
