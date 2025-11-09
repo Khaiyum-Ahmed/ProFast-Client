@@ -2,13 +2,15 @@ import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/UseAxiosSecure";
- // assuming you have auth context
+// assuming you have auth context
 import Loading from "../../Loading/Loading";
 import UseAuth from "../../../hooks/UseAuth";
+import Swal from "sweetalert2";
 
 const UpdateProfile = () => {
-    const { user } = UseAuth(); // current logged-in user
+    const { user, updateUserProfile } = UseAuth(); // current logged-in user
     const axiosSecure = useAxiosSecure();
+    console.log('Before update user display name:', user.displayName)
 
     // ✅ Fetch current user data
     const { data: profile, isLoading, refetch } = useQuery({
@@ -46,6 +48,31 @@ const UpdateProfile = () => {
     // ✅ Submit handler
     const onSubmit = (data) => {
         mutation.mutate(data);
+        // console.log(data);
+        updateUserProfile(data)
+            .then(() => {
+                // console.log(data)
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Update it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Updated!",
+                            text: "Your file has been Updated.",
+                            icon: "success"
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     };
 
     if (isLoading) return <Loading />;
@@ -65,8 +92,8 @@ const UpdateProfile = () => {
                     <label className="block font-semibold mb-1">Full Name</label>
                     <input
                         type="text"
-                        defaultValue={profile?.name}
-                        {...register("name", { required: true })}
+                        defaultValue={profile?.displayName}
+                        {...register("displayName", { required: true })}
                         className="w-full border p-3 rounded-md focus:ring focus:ring-blue-300"
                     />
                 </div>
@@ -125,8 +152,8 @@ const UpdateProfile = () => {
                     <label className="block font-semibold mb-1">Profile Image URL</label>
                     <input
                         type="url"
-                        defaultValue={profile?.profile_image}
-                        {...register("profile_image")}
+                        defaultValue={profile?.photoURL}
+                        {...register("photoURL")}
                         placeholder="https://your-image-link.com"
                         className="w-full border p-3 rounded-md focus:ring focus:ring-blue-300"
                     />
